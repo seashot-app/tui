@@ -88,6 +88,8 @@ body > textarea
         top: 0;
         bottom: 64px;
     .-main
+        display: flex;
+        flex-direction: column;
         position: absolute;
         text-align: center;
         top: 64px;
@@ -95,14 +97,12 @@ body > textarea
         right: 0;
         left: 0;
     .-wrap
-        position: absolute;
-        bottom: 0;
         width: 100%;
-        overflow: auto;
+        overflow: hidden;
         .-size-wrap
             display: table;
             width: 100%;
-            height: 100%
+            height: 100%;
             .-align-wrap
                 display: table-cell;
                 vertical-align: middle;
@@ -160,4 +160,4 @@ body > textarea
             background-color: #fff;
             transition: all .3s ease;
     .{prefix}-wrap
-        position: absolute;
+        flex-grow: 1;

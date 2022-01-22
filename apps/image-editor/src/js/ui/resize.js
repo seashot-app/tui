@@ -59,8 +59,6 @@ class Resize extends Submenu {
     this.actions.modeChange('resize');
     const dimensions = this.actions.getCurrentDimensions();
 
-    this._originalDimensions = dimensions;
-
     this.setWidthValue(dimensions.width);
     this.setHeightValue(dimensions.height);
   }

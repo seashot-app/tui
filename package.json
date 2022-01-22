@@ -31,7 +31,8 @@
     "mkdirp": "^1.0.4",
     "node-fetch": "^3.0.0",
     "prettier": "^2.0.5",
-    "stylus-loader": "^6.1.0",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.2.0",
     "svgstore": "*",
     "terser-webpack-plugin": "^5.2.3",
     "typescript": "^3.2.2",
@@ -44,7 +45,8 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.15.4"
+    "@babel/runtime-corejs3": "^7.15.4",
+    "fabric": "^4.6.0"
   },
   "scripts": {
     "build": "lerna run build",

@@ -63,13 +63,23 @@ class Theme {
         };
         break;
 
+      case 'range.disabledRatio':
+        result = this._makeCssText({
+          background: `linear-gradient(to right,${this.styles['range.disabledSubbar'].background} var(--ratio), ${this.styles['range.disabledBar'].color} var(--ratio))`,
+        });
+        break;
+      case 'range.ratio':
+        result = this._makeCssText({
+          background: `linear-gradient(to right,${this.styles['range.subbar'].background} var(--ratio), ${this.styles['range.bar'].color} var(--ratio))`,
+        });
+        break;
       case 'range.disabledPointer':
       case 'range.disabledBar':
       case 'range.disabledSubbar':
       case 'range.pointer':
-      case 'range.bar':
       case 'range.subbar':
-        option.backgroundColor = option.color;
+      case 'range.bar':
+        option.background = option.background || option.color;
         result = this._makeCssText(option);
         break;
       default:
@@ -99,10 +109,12 @@ class Theme {
       submenuRangePointer: this.getStyle('range.pointer'),
       submenuRangeBar: this.getStyle('range.bar'),
       submenuRangeSubbar: this.getStyle('range.subbar'),
+      submenuRangeRatio: this.getStyle('range.ratio'),
 
       submenuDisabledRangePointer: this.getStyle('range.disabledPointer'),
       submenuDisabledRangeBar: this.getStyle('range.disabledBar'),
       submenuDisabledRangeSubbar: this.getStyle('range.disabledSubbar'),
+      submenuDisabledRangeRatio: this.getStyle('range.disabledRatio'),
 
       submenuRangeValue: this.getStyle('range.value'),
       submenuColorpickerTitle: this.getStyle('colorpicker.title'),

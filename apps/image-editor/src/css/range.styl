@@ -1,44 +1,98 @@
 /* VIRTUAL RANGE */
+track-d = #ccc
+fill-d = #606060
 .{prefix}-container
-
-    .{prefix}-virtual-range-bar
-    .{prefix}-virtual-range-subbar
-    .{prefix}-virtual-range-pointer
-        .{prefix}-disabled
-            backbround-color: red;
-
     .{prefix}-range
         position: relative;
         top: 5px;
         width: 166px;
-        height: 17px;
+        height: 25px;
         display: inline-block;
-    .{prefix}-virtual-range-bar
-        top: 7px;
-        position: absolute;
+
+    .{prefix}-range-bar
+        cursor: pointer;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 7.5px;
+        background: transparent;
+        vertical-align: middle;
+
+    .{prefix}-range-bar, .{prefix}-range-bar::-webkit-slider-thumb
+        -webkit-appearance: none;
+    .{prefix}-range-bar::-webkit-slider-runnable-track
+        box-sizing: border-box;
+        border: none;
         width: 100%;
         height: 2px;
-        background-color: #666666;
-    .{prefix}-virtual-range-subbar
-        position: absolute;
-        height: 100%;
-        left: 0;
-        right: 0;
-        background-color: #d1d1d1;
-    .{prefix}-virtual-range-pointer
-        position: absolute;
-        cursor: pointer;
-        top: -5px;
-        left: 0;
+    .{prefix}-range-bar::-moz-range-track // -moz-range-track and -ms-track doesn't work correctly when combined in firefox, for some reason
+        box-sizing: border-box;
+        border: none;
+        width: 100%;
+        height: 2px;
+    .{prefix}-range-bar::-ms-track
+        box-sizing: border-box;
+        border: none;
+        width: 100%;
+        height: 2px;
+
+    .{prefix}-range-bar::-moz-range-progress
+        height: 2px;
+        
+    .{prefix}-range-bar::-ms-fill-lower
+        height: 2px;
+
+    .{prefix}-range-bar::-webkit-slider-thumb
+        margin-top: -4.85px;
+        box-sizing: border-box;
+        border: none;
         width: 12px;
         height: 12px;
-        background-color: #fff;
-        border-radius: 100%;
+        border-radius: 50%;
+
+    .{prefix}-range-bar::-moz-range-thumb
+        box-sizing: border-box;
+        border: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    .{prefix}-range-bar::-ms-thumb
+        margin-top: 0;
+        box-sizing: border-box;
+        border: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    .{prefix}-range-bar::-ms-tooltip
+        display: none;
+
     .{prefix}-range-wrap
         display: inline-block;
         margin-left: 4px;
         &.short .tui-image-editor-range
             width: 100px;
+    .{prefix}-disabled
+        .{prefix}-range-bar
+            cursor: default;
+        .{prefix}-range-value
+            color: #777;
+    .color-picker-control
+        .{prefix}-range-bar::-webkit-slider-runnable-track
+            background: linear-gradient(to right,fill-d var(--ratio), track-d var(--ratio)) !important;
+        .{prefix}-range-bar::-moz-range-track
+            background: track-d;
+        .{prefix}-range-bar::-ms-track
+            background: track-d;
+        .{prefix}-range-bar::-moz-range-progress
+            background: fill-d;
+        .{prefix}-range-bar::-ms-fill-lower
+            background: fill-d;
+        .{prefix}-range-bar::-webkit-slider-thumb
+            background: fill-d;
+        .{prefix}-range-bar::-moz-range-thumb
+            background: fill-d;
+        .{prefix}-range-bar::-ms-thumb
+            background: fill-d;
     .color-picker-control
         .{prefix}-range
             width: 108px;
@@ -60,6 +114,7 @@
         font-size: 11px;
         margin-right: 7px;
         color: #fff;
+
     .{prefix}-range-value
         cursor: default;
         width: 40px;
@@ -76,6 +131,9 @@
         font-family: 'Noto Sans', sans-serif;
         margin-top: 15px;
         margin-left: 4px;
+    .{prefix}-range-value-no-margin
+        margin-top: 0px;
+        margin-left: 0px;
     .{prefix}-controls
         position: absolute;
         background-color: #151515;

@@ -22,6 +22,8 @@ import ShapeDrawingMode from '@/drawingMode/shape';
 import TextDrawingMode from '@/drawingMode/text';
 import IconDrawingMode from '@/drawingMode/icon';
 import ZoomDrawingMode from '@/drawingMode/zoom';
+import { ResizeObserver } from 'resize-observer';
+
 import {
   makeSelectionUndoData,
   makeSelectionUndoDatum,
@@ -60,7 +62,7 @@ const backstoreOnly = {
  * @ignore
  */
 class Graphics {
-  constructor(element, { cssMaxWidth, cssMaxHeight } = {}) {
+  constructor(element, { cssMaxWidth, cssMaxHeight, ui } = {}) {
     /**
      * Fabric image instance
      * @type {fabric.Image}
@@ -78,6 +80,12 @@ class Graphics {
      * @type {number}
      */
     this.cssMaxHeight = cssMaxHeight || DEFAULT_CSS_MAX_HEIGHT;
+
+    /**
+     * UI class
+     * @type {Object}
+     */
+    this.ui = ui;
 
     /**
      * cropper Selection Style
@@ -158,6 +166,21 @@ class Graphics {
     this._createComponents();
     this._attachCanvasEvents();
     this._attachZoomEvents();
+
+    if (this.ui) {
+      this._resize = () => {
+        this.adjustCanvasDimensionBase();
+        const { width, height } = this.ui._getCanvasMaxDimension();
+        const editorElementStyle = this.ui._editorElement.style;
+        const { menuBarPosition } = this.ui.options;
+        editorElementStyle.height = `${height}px`;
+        editorElementStyle.width = `${width}px`;
+        this.ui._setEditorPosition(menuBarPosition);
+      };
+
+      const ro = new ResizeObserver(this._resize);
+      ro.observe(this.ui._editorElementWrap);
+    }
   }
 
   /**
@@ -581,12 +604,19 @@ class Graphics {
   }
 
   adjustCanvasDimensionBase(canvasImage = null) {
-    if (!canvasImage) {
-      canvasImage = this.canvasImage;
+    const canvas = this.getCanvas();
+    let width = canvas.getWidth();
+    let height = canvas.getHeight();
+
+    if (canvasImage) {
+      const img = canvasImage.getBoundingRect();
+      width = img.width;
+      height = img.height;
     }
 
-    const { width, height } = canvasImage.getBoundingRect();
     const maxDimension = this._calcMaxDimension(width, height);
+    canvas.setWidth(width);
+    canvas.setHeight(height);
 
     this.setCanvasCssDimension({
       width: '100%',
@@ -594,12 +624,10 @@ class Graphics {
       'max-width': `${maxDimension.width}px`,
       'max-height': `${maxDimension.height}px`,
     });
-
     this.setCanvasBackstoreDimension({
       width,
       height,
     });
-    this._canvas.centerObject(canvasImage);
   }
 
   /**
@@ -1045,10 +1073,17 @@ class Graphics {
    * @private
    */
   _calcMaxDimension(width, height) {
-    const wScaleFactor = this.cssMaxWidth / width;
-    const hScaleFactor = this.cssMaxHeight / height;
-    let cssMaxWidth = Math.min(width, this.cssMaxWidth);
-    let cssMaxHeight = Math.min(height, this.cssMaxHeight);
+    const bounds = this.ui
+      ? this.ui._editorElementWrap.getBoundingClientRect()
+      : {
+          width: Infinity,
+          height: Infinity,
+        };
+    const wScaleFactor = Math.min(this.cssMaxWidth, bounds.width) / width;
+    const hScaleFactor = Math.min(this.cssMaxHeight, bounds.height) / height;
+
+    let cssMaxWidth = Math.min(width, this.cssMaxWidth, bounds.width);
+    let cssMaxHeight = Math.min(height, this.cssMaxHeight, bounds.height);
 
     if (wScaleFactor < 1 && wScaleFactor < hScaleFactor) {
       cssMaxWidth = width * wScaleFactor;
@@ -1057,6 +1092,8 @@ class Graphics {
       cssMaxWidth = width * hScaleFactor;
       cssMaxHeight = height * hScaleFactor;
     }
+
+    console.log('md', cssMaxWidth, cssMaxHeight);
 
     return {
       width: Math.floor(cssMaxWidth),
@@ -1494,6 +1531,35 @@ class Graphics {
         resolve(cloned);
       });
     });
+  }
+
+  /**
+   * Get current positions
+   * @returns {array}
+   */
+  getCurrentPositions() {
+    const resize = this.getComponent(components.RESIZE);
+
+    return resize.getCurrentPositions();
+  }
+
+  /**
+   * Get original positions
+   * @returns {array}
+   */
+  getOriginalPositions() {
+    const resize = this.getComponent(components.RESIZE);
+
+    return resize.getOriginalPositions();
+  }
+
+  /**
+   * Set original Positions
+   * @param {object} Positions - Positions
+   */
+  setOriginalPositions(positions) {
+    const resize = this.getComponent(components.RESIZE);
+    resize.setOriginalPositions(positions);
   }
 
   /**

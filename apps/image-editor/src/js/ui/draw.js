@@ -3,9 +3,12 @@ import Range from '@/ui/tools/range';
 import Submenu from '@/ui/submenuBase';
 import templateHtml from '@/ui/template/submenu/draw';
 import { assignmentForDestroy, getRgb } from '@/util';
-import { defaultDrawRangeValues, eventNames, selectorNames } from '@/consts';
-
-const DRAW_OPACITY = 0.7;
+import {
+  defaultDrawRangeValues,
+  opacityDrawRangeValues,
+  eventNames,
+  selectorNames,
+} from '@/consts';
 
 /**
  * Draw ui class
@@ -41,11 +44,28 @@ class Draw extends Submenu {
 
     this.type = null;
     this.color = this._els.drawColorPicker.color;
+    this.drawOpacity = 0.7;
     this.width = this._els.drawRange.value;
 
     this.colorPickerInputBox = this._els.drawColorPicker.colorpickerElement.querySelector(
       selectorNames.COLOR_PICKER_INPUT_BOX
     );
+
+    this._els.colorOpacity = this._pickerWithRange(this._els.drawColorPicker.pickerControl);
+  }
+
+  _pickerWithRange(pickerControl) {
+    const rangeWrap = document.createElement('div');
+    const rangeLabel = document.createElement('label');
+    const slider = document.createElement('div');
+
+    slider.id = 'tie-filter-tint-opacity';
+    rangeLabel.innerHTML = 'Opacity';
+    rangeWrap.appendChild(rangeLabel);
+    rangeWrap.appendChild(slider);
+    pickerControl.appendChild(rangeWrap);
+
+    return new Range({ slider }, opacityDrawRangeValues);
   }
 
   /**
@@ -107,7 +127,7 @@ class Draw extends Submenu {
   setDrawMode() {
     this.actions.setDrawMode(this.type, {
       width: this.width,
-      color: getRgb(this.color, DRAW_OPACITY),
+      color: getRgb(this.color, this.drawOpacity),
     });
   }
 

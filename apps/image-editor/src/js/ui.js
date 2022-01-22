@@ -159,16 +159,10 @@ class Ui {
     const { width, height } = this._getCanvasMaxDimension();
     const editorElementStyle = this._editorElement.style;
     const { menuBarPosition } = this.options;
-
     editorElementStyle.height = `${height}px`;
     editorElementStyle.width = `${width}px`;
 
     this._setEditorPosition(menuBarPosition);
-
-    this._editorElementWrap.style.bottom = `0px`;
-    this._editorElementWrap.style.top = `0px`;
-    this._editorElementWrap.style.left = `0px`;
-    this._editorElementWrap.style.width = `100%`;
 
     const selectElementClassList = this._selectedElement.classList;
 
@@ -188,9 +182,7 @@ class Ui {
    */
   toggleZoomButtonStatus(type) {
     const targetClassList = this._buttonElements[type].classList;
-
     targetClassList.toggle(CLASS_NAME_ON);
-
     if (type === ZOOM_BUTTON_TYPE.ZOOM_IN) {
       this._buttonElements[ZOOM_BUTTON_TYPE.HAND].classList.remove(CLASS_NAME_ON);
     } else {

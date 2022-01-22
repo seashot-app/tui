@@ -45,8 +45,18 @@
     "not ie <= 9"
   ],
   "dependencies": {
-    "fabric": "^4.2.0",
+    "eslint": "^8.6.0",
+    "eslint-plugin-jest": "^25.3.4",
+    "fabric": "^4.6.0",
+    "jest": "^27.4.7",
+    "resize-observer": "^1.0.4",
     "tui-code-snippet": "^1.5.0",
-    "tui-color-picker": "^2.2.6"
+    "tui-color-picker": "^2.2.6",
+    "webpack": "^5.65.0"
+  },
+  "devDependencies": {
+    "css-loader": "^6.5.1",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.2.0"
   }
 }

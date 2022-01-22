@@ -56,7 +56,6 @@ export default {
     };
     const toggleZoomMode = () => {
       const zoomMode = this._graphics.getZoomMode();
-
       this.stopDrawingMode();
       if (zoomMode !== zoomModes.ZOOM) {
         this.startDrawingMode(drawingModes.ZOOM);
@@ -167,6 +166,11 @@ export default {
           this.ui.toggleHistoryMenu(event);
         },
         zoomIn: () => {
+          if (
+            ['resize', 'crop', 'flip', 'rotate'].includes(this.ui.submenu) &&
+            this._graphics.getZoomMode() === 'normal'
+          )
+            return;
           this.ui.toggleZoomButtonStatus('zoomIn');
           this.deactivateAll();
           toggleZoomMode();
@@ -483,13 +487,16 @@ export default {
           }
         },
         resize: (dimensions = null) => {
+          let positions;
           if (!dimensions) {
             dimensions = this._graphics.getCurrentDimensions();
+            positions = this._graphics.getCurrentPositions();
           }
 
           this.resize(dimensions)
             .then(() => {
               this._graphics.setOriginalDimensions(dimensions);
+              if(positions)this._graphics.setOriginalPositions(positions);
               this.stopDrawingMode();
               this.ui.resizeEditor();
               this.ui.changeMenu('resize');
@@ -498,7 +505,6 @@ export default {
         },
         reset: (standByMode = false) => {
           const dimensions = this._graphics.getOriginalDimensions();
-
           this.ui.resize.setWidthValue(dimensions.width, true);
           this.ui.resize.setHeightValue(dimensions.height, true);
 

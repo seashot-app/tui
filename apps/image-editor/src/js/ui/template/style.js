@@ -11,6 +11,8 @@ export default ({
   submenuColorpickerButton,
   submenuRangeBar,
   submenuRangeSubbar,
+  submenuRangeRatio,
+  submenuDisabledRangeRatio,
   submenuDisabledRangePointer,
   submenuDisabledRangeBar,
   submenuDisabledRangeSubbar,
@@ -72,23 +74,53 @@ export default ({
     .tui-image-editor-container .tui-image-editor-checkbox label > input:checked + span:before {
         border: 0;
     }
-    .tui-image-editor-container .tui-image-editor-virtual-range-pointer {
-        ${submenuRangePointer}
+    .tui-image-editor-container .tui-image-editor-range-bar::-webkit-slider-runnable-track {
+        ${submenuRangeRatio}
     }
-    .tui-image-editor-container .tui-image-editor-virtual-range-bar {
+    .tui-image-editor-container .tui-image-editor-range-bar::-moz-range-track {
         ${submenuRangeBar}
     }
-    .tui-image-editor-container .tui-image-editor-virtual-range-subbar {
+    .tui-image-editor-container .tui-image-editor-range-bar::-ms-track {
         ${submenuRangeSubbar}
     }
-    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-virtual-range-pointer {
-        ${submenuDisabledRangePointer}
+    .tui-image-editor-container .tui-image-editor-range-bar::-moz-range-progress {
+        ${submenuRangeSubbar}
     }
-    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-virtual-range-subbar {
+    .tui-image-editor-container .tui-image-editor-range-bar::-ms-fill-lower {
+        ${submenuRangeBar}
+    }
+    .tui-image-editor-container .tui-image-editor-range-bar::-webkit-slider-thumb {
+        ${submenuRangePointer}
+    }
+    .tui-image-editor-container .tui-image-editor-range-bar::-moz-range-thumb {
+        ${submenuRangePointer}
+    }
+    .tui-image-editor-container .tui-image-editor-range-bar::-ms-thumb {
+        ${submenuRangePointer}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-webkit-slider-runnable-track {
+        ${submenuDisabledRangeRatio}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-moz-range-track {
+        ${submenuDisabledRangeBar}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-ms-track {
         ${submenuDisabledRangeSubbar}
     }
-    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-virtual-range-bar {
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-moz-range-progress {
+        ${submenuDisabledRangeSubbar}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-ms-fill-lower {
         ${submenuDisabledRangeBar}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-webkit-slider-thumb {
+        ${submenuDisabledRangePointer}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-moz-range-thumb {
+        ${submenuDisabledRangePointer}
+    }
+    .tui-image-editor-container .tui-image-editor-disabled .tui-image-editor-range-bar::-ms-thumb {
+        ${submenuDisabledRangePointer}
     }
     .tui-image-editor-container .tui-image-editor-range-value {
         ${submenuRangeValue}

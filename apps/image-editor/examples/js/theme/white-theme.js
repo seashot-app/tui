@@ -53,7 +53,7 @@ var whiteTheme = {
   'checkbox.border': '1px solid #ccc',
   'checkbox.backgroundColor': '#fff',
 
-  // rango style
+  // range style
   'range.pointer.color': '#333',
   'range.bar.color': '#ccc',
   'range.subbar.color': '#606060',

@@ -2,21 +2,19 @@
  * @author NHN. FE Development Team <dl_javascript@nhn.com>
  * @fileoverview Add filter module
  */
-import { isUndefined, extend, forEach, filter } from 'tui-code-snippet';
+import { isUndefined, extend, forEach } from 'tui-code-snippet';
 import { fabric } from 'fabric';
 import Component from '@/interface/component';
-import { rejectMessages, componentNames } from '@/consts';
+import { rejectMessages, componentNames, filterOptions } from '@/consts';
 import Mask from '@/extension/mask';
 import Sharpen from '@/extension/sharpen';
 import Emboss from '@/extension/emboss';
-import ColorFilter from '@/extension/colorFilter';
 
 const { filters } = fabric.Image;
 
 filters.Mask = Mask;
 filters.Sharpen = Sharpen;
 filters.Emboss = Emboss;
-filters.ColorFilter = ColorFilter;
 
 /**
  * Filter
@@ -28,6 +26,7 @@ filters.ColorFilter = ColorFilter;
 class Filter extends Component {
   constructor(graphics) {
     super(componentNames.FILTER, graphics);
+    this.filters = {};
   }
 
   /**
@@ -172,7 +171,13 @@ class Filter extends Component {
     if (ImageFilter) {
       filterObj = new ImageFilter(options);
       filterObj.options = options;
-      sourceImg.filters.push(filterObj);
+      this.filters[fabricType] = filterObj;
+
+      sourceImg.filters = [];
+      filterOptions.forEach((name) => {
+        const type_ = this._getFabricFilterType(name);
+        if (type_ in this.filters) sourceImg.filters.push(this.filters[type_]);
+      });
     }
 
     return filterObj;
@@ -213,7 +218,14 @@ class Filter extends Component {
    */
   _removeFilter(sourceImg, type) {
     const fabricType = this._getFabricFilterType(type);
-    sourceImg.filters = filter(sourceImg.filters, (value) => value.type !== fabricType);
+
+    delete this.filters[fabricType];
+
+    sourceImg.filters = [];
+    filterOptions.forEach((name) => {
+      const type_ = this._getFabricFilterType(name);
+      if (type_ in this.filters) sourceImg.filters.push(this.filters[type_]);
+    });
   }
 
   /**

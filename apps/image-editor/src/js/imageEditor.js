@@ -203,6 +203,7 @@ class ImageEditor {
     this._graphics = new Graphics(this.ui ? this.ui.getEditorArea() : wrapper, {
       cssMaxWidth: options.cssMaxWidth,
       cssMaxHeight: options.cssMaxHeight,
+      ui: this.ui,
     });
 
     /**
