@@ -1,5 +1,6 @@
 {
-  "name": "root",
+  "name": "internal-tui",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -57,4 +58,5 @@
   "workspaces": [
     "apps/*"
   ]
+  
 }
