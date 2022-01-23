@@ -1093,8 +1093,6 @@ class Graphics {
       cssMaxHeight = height * hScaleFactor;
     }
 
-    console.log('md', cssMaxWidth, cssMaxHeight);
-
     return {
       width: Math.floor(cssMaxWidth),
       height: Math.floor(cssMaxHeight),
